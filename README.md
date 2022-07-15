@@ -46,9 +46,9 @@ This project uses the N2K libraries by Timo Lappalainen (ttlappalainen).  Thanks
 # Conector Pinout
 ```
 1 - Purple       - RPM Sensor +
-2 - Grey         - Preheat Indicator
+2 - Grey         - Coolant Temp Sensor
 3 - Green        - System Voltage
-4 - White        - Coolant Temp Sensor
+4 - White        - Preheat Indicator
 5 - White/Black  - Coolant OverTemp Switch Input
 6 - Green/Black  - Oil Presure Switch Input
 7 - Grey/Black   - Ground

@@ -33,14 +33,27 @@ This project uses the N2K libraries by Timo Lappalainen (ttlappalainen).  Thanks
 - Temp. 100oC: 38.5 ±3.0 Ω (±4oC)
 - Overheat => 110oC ± 2oC
 
-```
 # Desired Inputs
+```
 1 - Oil Presure Sensor
 2 - Oil Presure Switch Input
 3 - Coolant Temp Sensor
 4 - Coolant OverTemp Switch Input
 5 - System Voltage
 6 - Preheat Indicator
+```
+
+# Conector Pinout
+```
+1 - Purple       - RPM Sensor +
+2 - Grey         - Preheat Indicator
+3 - Green        - System Voltage
+4 - White        - Coolant Temp Sensor
+5 - White/Black  - Coolant OverTemp Switch Input
+6 - Green/Black  - Oil Presure Switch Input
+7 - Grey/Black   - Ground
+8 - Purple/Black - RPM Sensor -
+```
 
 **Arduino Due Used Pins:** (Note There are electrical components required to bring every thing down to 3.3V max)
 ```

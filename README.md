@@ -26,13 +26,15 @@ This project uses the N2K libraries by Timo Lappalainen (ttlappalainen).  Thanks
 - AUTEX Pressure Transducer Sensor 100 Psi Pressure Sender 316 Stainless Steel Oil Pressure Transmitter 1/8" -27 NPT For Oil Fuel Air Water Pressure
 - Output: 0.5V – 4.5V linear voltage output. 0 psi outputs 0.5V, 50 psi outputs 2.5V, 100 psi outputs 4.5V
 
-#Water Temp Sensor
+# Water Temp Sensor
 - Sensor was supplied with the Engine, Was connected to harness, but was not connected and control panel
 - Temp. 60oC: 134.0 ±13.5 Ω (±4oC)
 - Temp. 90oC: 51.2 ±4.3 Ω (±4oC)
 - Temp. 100oC: 38.5 ±3.0 Ω (±4oC)
 - Overheat => 110oC ± 2oC
 
+```
+# Desired Inputs
 1 - Oil Presure Sensor
 2 - Oil Presure Switch Input
 3 - Coolant Temp Sensor

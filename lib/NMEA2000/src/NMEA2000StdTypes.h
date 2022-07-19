@@ -1,7 +1,7 @@
 /*
 NMEA2000StdTypes.h
 
-Copyright (c) 2019-2021 Timo Lappalainen, Kave Oy, www.kave.fi
+Copyright (c) 2019-2022 Timo Lappalainen, Kave Oy, www.kave.fi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -58,6 +58,16 @@ enum tN2kDD002 {
                   N2kDD002_1=N2kDD002_Yes,
                   N2kDD002_Unknown=N2kDD002_Unavailable
                 };
+
+enum tN2kDD025 {
+                  N2kDD025_Autonomous=0,
+                  N2kDD025_Differential=1,
+                  N2kDD025_Estimated=2,
+                  N2kDD025_Simulator=3,
+                  N2kDD025_Manual=4,
+                  N2kDD025_Error=0xe,
+                  N2kDD025_Unavailable=0xf
+                };
                           
 enum tN2kDD072 {
                   N2kDD072_RangeResidualsWereUsedToCalculateData=0,
@@ -76,29 +86,6 @@ enum tN2kDD124 {
                   N2kDD124_Error=14,
                   N2kDD124_Unavailable=15,
                 };
-// DD477 - Windlass Monitoring Events
-//
-union tN2kDD477 {
-          unsigned char Events;
-          struct {
-            unsigned char ControllerUnderVoltageCutout:1;
-            unsigned char ControllerOverCurrentCutout:1;
-            unsigned char ControllerOverTemperatureCutout:1;
-          } Event;
-          tN2kDD477(): Events(0) {};
-          void SetEvents(unsigned char _Events) { Events = (_Events & 0x07); }
-        };
-
-// DD478 - Windlass Control Events
-//
-union tN2kDD478 {
-          unsigned char Events;
-          struct {
-            unsigned char AnotherDeviceControllingWindlass:1;
-          } Event;
-          tN2kDD478(): Events(0) {};
-          void SetEvents(unsigned char _Events) { Events = (_Events & 0x01); }
-        };
 
 union tN2kDD206 {
           uint16_t Status;
@@ -134,10 +121,125 @@ union tN2kDD223 {
               uint16_t SubOrSecondaryThrottle:1;
               uint16_t NeutralStartProtect:1;
               uint16_t EngineShuttingDown:1;
+              uint16_t Manufacturer1:1;
+              uint16_t Manufacturer2:1;
+              uint16_t Manufacturer3:1;
+              uint16_t Manufacturer4:1;
+              uint16_t Manufacturer5:1;
+              uint16_t Manufacturer6:1;
+              uint16_t Manufacturer7:1;
+              uint16_t Manufacturer8:1;
           } Bits;
-          tN2kDD223(uint16_t _Status=0): Status(_Status & 0x00ff) {};
+          tN2kDD223(uint16_t _Status=0): Status(_Status) {};
           uint16_t operator= (uint16_t val) { Status=val & 0x00ff; return Status;}
 };
+
+enum tN2kDD305 {
+          N2kAISAtoN_not_specified=0,
+          N2kAISAtoN_reference_point=1,
+          N2kAISAtoN_RACON=2,
+          N2kAISAtoN_fixed_structure=3,
+          N2kAISAtoN_emergency_wreck_marking_buoy=4,
+          N2kAISAtoN_light_without_sectors=5,
+          N2kAISAtoN_light_with_sectors=6,
+          N2kAISAtoN_leading_light_front=7,
+          N2kAISAtoN_leading_light_rear=8,
+          N2kAISAtoN_beacon_cardinal_N=9,
+          N2kAISAtoN_beacon_cardinal_E=10,
+          N2kAISAtoN_beacon_cardinal_S=11,
+          N2kAISAtoN_beacon_cardinal_W=12,
+          N2kAISAtoN_beacon_port_hand=13,
+          N2kAISAtoN_beacon_starboard_hand=14,
+          N2kAISAtoN_beacon_preferred_ch_port_hand=15,
+          N2kAISAtoN_beacon_preferred_ch_starboard_hand=16,
+          N2kAISAtoN_beacon_isolated_danger=17,
+          N2kAISAtoN_beacon_safe_water=18,
+          N2kAISAtoN_beacon_special_mark=19,
+          N2kAISAtoN_cardinal_mark_N=20,
+          N2kAISAtoN_cardinal_mark_E=21,
+          N2kAISAtoN_cardinal_mark_S=22,
+          N2kAISAtoN_cardinal_mark_W=23,
+          N2kAISAtoN_port_hand_mark=24,
+          N2kAISAtoN_starboard_hand_mark=25,
+          N2kAISAtoN_preferred_channel_port_hand=26,
+          N2kAISAtoN_preferred_channel_starboard_hand=27,
+          N2kAISAtoN_isolated_danger=28,
+          N2kAISAtoN_safe_water=29,
+          N2kAISAtoN_special_mark=30,
+          N2kAISAtoN_light_vessel_lanby_rigs=31,
+};
+
+// Thruster Motor Events
+//
+union tN2kDD471 {
+	unsigned char Events;
+	struct {
+		unsigned char MotorOverTemperatureCutout:1;
+		unsigned char MotorOverCurrentCutout:1;
+		unsigned char LowOilLevelWarning:1;
+		unsigned char OilOverTemperatureWarning:1;
+		unsigned char ControllerUnderVoltageCutout:1;
+		unsigned char ManufacturerDefined:1;
+		unsigned char Reserved:1;
+		unsigned char DataNotAvailable:1;
+	} Event;
+	tN2kDD471(): Events(0) {};
+	void SetEvents(unsigned char _Events) { Events = (_Events & 0xbf); }
+};
+
+// Thruster Direction Control
+//
+enum tN2kDD473 {
+	N2kDD473_OFF=0,
+	N2kDD473_ThrusterReady=1,
+	N2kDD473_ThrusterToPORT=2,
+	N2kDD473_ThrusterToSTARBOARD=3
+};
+
+// Thruster Retraction
+//
+enum tN2kDD474 {
+	N2kDD474_OFF=0,
+	N2kDD474_Extend=1,
+	N2kDD474_Retract=2
+};
+
+// Thruster Control Events
+//
+union tN2kDD475 {
+	unsigned char Events;
+	struct {
+		unsigned char AnotherDeviceControllingThruster:1;
+		unsigned char BoatSpeedTooFast:1;
+	} Event;
+	tN2kDD475(): Events(0) {};
+	void SetEvents(unsigned char _Events) { Events = (_Events & 0x03); }
+};
+
+// DD477 - Windlass Monitoring Events
+//
+union tN2kDD477 {
+          unsigned char Events;
+          struct {
+            unsigned char ControllerUnderVoltageCutout:1;
+            unsigned char ControllerOverCurrentCutout:1;
+            unsigned char ControllerOverTemperatureCutout:1;
+          } Event;
+          tN2kDD477(): Events(0) {};
+          void SetEvents(unsigned char _Events) { Events = (_Events & 0x07); }
+        };
+
+// DD478 - Windlass Control Events
+//
+union tN2kDD478 {
+          unsigned char Events;
+          struct {
+            unsigned char AnotherDeviceControllingWindlass:1;
+          } Event;
+          tN2kDD478(): Events(0) {};
+          void SetEvents(unsigned char _Events) { Events = (_Events & 0x01); }
+        };
+
 
 // DD480 - Windlass Motion States
 //                          
@@ -190,6 +292,16 @@ enum tN2kDD484 {
                             N2kDD484_Reserved=3
                           };
 
+// DD487 - Motor Power Type
+//
+enum tN2kDD487 {
+	N2kDD487_12VDC=0,
+	N2kDD487_24VDC=1,
+	N2kDD487_48VDC=2,
+	N2kDD487_24VAC=3,
+	N2kDD487_Hydraulic=4,
+};
+
 // DD488 - Speed Type
 //          
 enum tN2kDD488 {
@@ -198,6 +310,8 @@ enum tN2kDD488 {
                             N2kDD488_ProportionalSpeed=2,
                             N2kDD488_DataNotAvailable=3
                           };
+
+
 
 #endif
 
